@@ -1,0 +1,52 @@
+<div class="container align-items-center justify-content-center">
+    <div class="container mt-4">
+        <div class="alert alert-warning" [hidden]="wishlist.length!==0" id="alert">
+            No Records.
+        </div>
+        <div>
+            <div class="d-flex justify-content-between pt-3 pb-3">
+                <div></div>
+                <button class="btn searchBtn" [disabled]="detailButtonDisabled" id="detail-button">
+                    <i class="material-icons">arrow_forward_ios</i> Detail
+                </button>
+            </div>
+        </div>
+        <table class="table table-dark table-striped table-hover text-left px-0 mx-0" id="search-result">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Shipping</th>
+                    <th>Wish List</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of wishlist; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td class="img" (click)="openImage(product.galleryURL)"><img alt="product-image" [src]=product.galleryURL></td>
+                    <td class="title">
+                        <span class="hyperlink-text" matTooltip="{{product.title}}" (click)="showDetail(product.itemId)">{{truncateTitle(product.title[0])}}</span>
+                    </td>
+                    <td>{{product.sellingStatus[0]?.currentPrice[0]?.__value__ ? '$'+product.sellingStatus[0].currentPrice[0].__value__ : 'N/A'}}</td>
+                    <td>{{product.shippingInfo[0]?.shippingServiceCost[0]?.__value__ ? 
+                        (product.shippingInfo[0].shippingServiceCost[0].__value__ == 0 ? 'Free Shipping' :
+                        '$'+product.shippingInfo[0].shippingServiceCost[0].__value__) : 
+                        'N/A'}}
+                    </td>
+                    <td>
+                        <button class="btn searchBtn" (click)="removeFromWishlist(product)">
+                            <i class="material-icons remove"> remove_shopping_cart</i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td><b>Total Shopping</b></td>
+                    <td><b>${{totalPrice}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

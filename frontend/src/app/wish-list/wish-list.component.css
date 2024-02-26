@@ -1,0 +1,58 @@
+.container {
+    max-width: 1200px;
+}
+
+.table {
+    max-width: 1200px;
+}
+
+@media (max-width: 600px) {
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+ }
+
+td, th {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td.title {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.img {
+    text-align: center;
+}
+
+td.img img {
+    width: 150px;
+    height: 150px;
+    object-fit: fill;
+}
+.searchBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.remove {
+    color: darkorange !important;
+}
+
+.hyperlink-text {
+    color: rgb(41, 41, 240);
+    cursor: pointer;
+  }
+
+.searchBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(236, 236, 236);
+}

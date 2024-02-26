@@ -1,0 +1,19 @@
+<div
+  id="wish"
+  class="container align-items-center justify-content-center"
+>
+  <div
+    id="wish-list"
+    class="container align-items-center justify-content-center"
+    *ngIf="display == 'table'"
+  >
+    <app-wish-list></app-wish-list>
+  </div>
+  <div
+    id="wishlist-detail-table"
+    class="container"
+    *ngIf="display == 'detail'"
+  >
+    <app-search-detail></app-search-detail>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div
+  id="search-result"
+  class="container align-items-center justify-content-center"
+>
+  <div
+    id="result-table"
+    class="container align-items-center justify-content-center"
+    *ngIf="display == 'table'"
+  >
+    <app-search-result></app-search-result>
+  </div>
+  <div
+    id="detail-table"
+    class="container"
+    *ngIf="display == 'detail'"
+  >
+    <app-search-detail></app-search-detail>
+  </div>
+</div>

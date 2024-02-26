@@ -1,0 +1,8 @@
+.nav-item {
+    border-radius: 5px;
+}
+
+.nav-link.active {
+    background-color: black;
+    color: white;
+}

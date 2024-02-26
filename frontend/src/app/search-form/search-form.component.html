@@ -1,0 +1,122 @@
+<div class="container align-items-center justify-content-center">
+    <div class="container searchForm mt-4">
+        <h2 class="pb-4 pt-4">Product Search</h2>
+        <form
+            class="row"
+            ngNativeValidate
+            (ngSubmit)="onSubmit()"
+            [formGroup]="searchForm"
+            >
+            <div class="form-group col-md-4 col-sm-12">
+                <label class="form-label" for="keyword">Keyword</label>
+                <span class="form-label" style="color: red;">*</span>
+            </div>
+            <div class="form-group pb-3 col-md-8 col-sm-12">
+                <input
+                    class="form-control"
+                    id="keyword" 
+                    placeholder="Enter Product Name (eg. iPhone 8)"
+                    formControlName="keyword">
+                <span class="form-label hidden" id="keywordWarning" style="color: red;">Please enter a keyword.</span>
+            </div>
+            <div class="form-group col-md-4 col-sm-12">
+                <label class="form-label" for="category">Category</label>
+            </div>
+            <div class="form-group pb-3 col-md-8 col-sm-12">
+                <select
+                    class="form-select"
+                    id="category">
+                    <option value="All Categories">All Categories</option>
+                    <option value="Art">Art</option>
+                    <option value="Baby">Baby</option>
+                    <option value="Books">Books</option>
+                    <option value="Clothing, Shoes & Accessories">Clothing, Shoes & Accessories</option>
+                    <option value="Computers/Tablets & Networking">Computers/Tablets & Networking</option>
+                    <option value="Health & Beauty">Health & Beauty</option>
+                    <option value="Music">Music</option>
+                    <option value="Video Games & Consoles">Video Games & Consoles</option>
+                </select>    
+            </div>
+            <div class="form-group col-md-4 col-sm-12">
+                <label class="form-label" for="condition">Condition</label>
+            </div>
+            <div class="form-group pb-4 col-md-8 col-sm-12">
+                <input type="checkbox" class="form-check-input" id="conditionNew" value="New"> New
+                <input type="checkbox" class="form-check-input ms-2" id="conditionUsed" value="Used"> Used
+                <input type="checkbox" class="form-check-input ms-2" id="conditionUnspecified" value="Unspecified"> Unspecified
+              </div>
+            <div class="form-group col-md-4 col-sm-12">
+                <label class="form-label" for="shipping">Shipping Options</label>
+            </div>
+            <div class="form-group pb-4 col-md-8 col-sm-12">
+                <input type="checkbox" class="form-check-input" id="localPickup"> Local Pickup
+                <input type="checkbox" class="form-check-input ms-2" id="freeShipping"> Free Shipping
+            </div>
+            <div class="form-group col-md-4 col-sm-12">
+                <label class="form-label" for="distance">Distance (Miles)</label>
+            </div>
+            <div class="form-group pb-3 col-md-8 col-sm-12">
+                <div class="col-md-6 col-sm-12">
+                    <input
+                        class="form-control"
+                        type="number"
+                        id="distance"
+                        placeholder=10>
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-12">
+                <label class="form-label" for="location">From</label>
+                <span class="form-label" style="color: red;">*</span>
+            </div>
+            <div class="form-group pb-3 col-md-8 col-sm-12"> 
+                <div class="form-check col-md-8">
+                    <input
+                        type="radio"
+                        class="form-check-input" 
+                        id="currentLocation"
+                        formControlName="location" 
+                        name="location" 
+                        value="Current"
+                        (change)="customZip = false"
+                        > 'Current Location'
+                </div>
+                <div class="form-check pb-3 col-md-8">
+                    <input
+                        type="radio" 
+                        class="form-check-input"
+                        id="otherLocation"
+                        formControlName="location" 
+                        name="location" 
+                        value="Other"
+                        (change)="customZip = true"
+                        > Other. Please specify zip code:
+                </div>
+                <div>
+                    <input type="text"
+                    class="form-control"
+                    id="Zip"
+                    formControlName="zip" 
+                    [attr.disabled]="!customZip ? '' : null"
+                    [matAutocomplete]="auto"
+                    >
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let zip of zipCodes" [value]="zip">
+                        {{zip}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <span class="form-label hidden" id="zipWarning" style="color: red;">Please enter a zip code.</span>
+                </div>
+            </div>
+            <div class="form-button pb-3 col-sm-3 col-4">
+                <button type="submit" class="btn searchBtn" [disabled]="!formValidated">
+                    <i class="material-icons">search</i> Search
+                </button>
+            </div>
+            <div class="form-button pb-3 col-sm-3 col-3">
+                <button type="button" class="btn searchBtn" (click)="clearForm()">
+                    <i class="material-icons">clear_all</i> Clear
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

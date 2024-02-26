@@ -1,0 +1,464 @@
+<div class="container align-items-center justify-content-center pt-3">
+    <h4>{{item_title}}</h4>
+    <div>
+        <div class="d-flex justify-content-between pt-3 pb-3">
+            <button class="btn searchBtn" (mouseup)="goBack()">
+                <i class="material-icons">arrow_back_ios</i> List
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="nav nav-tabs justify-content-end" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true" (click)="selectTab('tab1-tab')">Product</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false" (click)="selectTab('tab2-tab')">Photos</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false" (click)="selectTab('tab3-tab')">Shipping</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false" (click)="selectTab('tab4-tab')">Seller</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab5-tab" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="tab5" aria-selected="false" (click)="selectTab('tab5-tab')">Similar Products</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                <div class="d-md-none">    
+                    <table class="table table-dark table-striped table-hover text-left px-0 mx-0 w-100">
+                        <tbody>
+                        <tr *ngIf="item_images">
+                            <td class="bold">Product Images</td>
+                        </tr>
+                        <tr *ngIf="item_images">
+                            <td class="col-10" (click)="openModal()">
+                                <a class="hyperlink-text">View Product Images Here</a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="item_price">
+                            <td class="bold">Price</td>
+                        </tr>
+                        <tr *ngIf="item_price">
+                            <td>{{item_price}}</td>
+                        </tr>
+                        <tr *ngIf="item_location">
+                            <td class="bold">Location</td>
+                        </tr>
+                        <tr *ngIf="item_location">
+                            <td>{{item_location}}</td>
+                        </tr>
+                        <tr *ngIf="item_return_policy">
+                            <td class="bold">Return Policy</td>
+                        </tr>
+                        <tr *ngIf="item_return_policy">
+                            <td>{{item_return_policy}}</td>
+                        </tr>
+                        <ng-container *ngFor="let item of item_specifics">
+                            <tr class="bold">
+                                <td>{{item.Name}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{item.Value}}</td>
+                            </tr>
+                        </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-none d-md-block">
+                    <table class="table table-dark table-striped table-hover text-left px-0 mx-0">
+                        <tbody>
+                        <tr *ngIf="item_images">
+                            <td class="col-2 bold">Product Images</td>
+                            <td class="col-10" (click)="openModal()">
+                                <a class="hyperlink-text">View Product Images Here</a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="item_price">
+                            <td class="bold">Price</td>
+                            <td>{{item_price}}</td>
+                        </tr>
+                        <tr *ngIf="item_location">
+                            <td class="bold">Location</td>
+                            <td>{{item_location}}</td>
+                        </tr>
+                        <tr *ngIf="item_return_policy">
+                            <td class="bold">Return Policy</td>
+                            <td>{{item_return_policy}}</td>
+                        </tr>
+                        <tr *ngFor="let item of item_specifics">
+                            <td class="bold">{{item.Name}}</td>
+                            <td>{{item.Value}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                <div class="d-md-none" *ngIf="searchImages">    
+                    <table class="table table-hover text-left px-0 mx-0 w-100">
+                        <tr *ngFor="let imageUrl of searchImages; let i = index">
+                            <td>
+                                <img class="border-small" [src]="imageUrl['link']" alt="Image" (click)="openInNewTab(imageUrl['link'])">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="d-none d-md-block" *ngIf="searchImages">    
+                    <table class="table-image table table-hover text-left px-0 mx-0 w-100">
+                        <tr *ngFor="let imageUrl of searchImages; let i = index">
+                            <td *ngIf="i % 3 === 2">
+                                <img class="border" [src]="imageUrl['link']" alt="Image" (click)="openInNewTab(imageUrl['link'])">
+                            </td>
+                            <td *ngIf="i % 3 === 1">
+                                <img class="border" [src]="imageUrl['link']" alt="Image" (click)="openInNewTab(imageUrl['link'])">
+                            </td>
+                            <td *ngIf="i % 3 === 0">
+                                <img class="border" [src]="imageUrl['link']" alt="Image" (click)="openInNewTab(imageUrl['link'])">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                <div class="d-md-none">    
+                    <table class="table table-dark table-hover text-left px-0 mx-0 w-100">
+                        <tbody>
+                        <tr *ngIf="shipping_cost">
+                            <td class="col-6 bold">Shipping Cost</td>
+                        </tr>
+                        <tr *ngIf="shipping_cost">
+                            <td class="col-6">{{shipping_cost}}</td>
+                        </tr>
+                        <tr *ngIf="shipping_location">
+                            <td class="bold">Shipping Location</td>
+                        </tr>
+                        <tr *ngIf="shipping_location">
+                            <td>{{shipping_location}}</td>
+                        </tr>
+                        <tr *ngIf="handling_time">
+                            <td class="bold">Handling Time</td>
+                        </tr>
+                        <tr *ngIf="handling_time">
+                            <td>{{handling_time}}</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Expedited Shipping</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="!expedited_shipping; else noExpeditedShipping">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noExpeditedShipping>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        <tr>
+                            <td class="bold">One Day Shipping</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="!one_day_shipping; else noOneDayShipping">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noOneDayShipping>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        <tr>
+                            <td class="bold">Return Accepted</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="!return_accepted; else noReturnAccepted">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noReturnAccepted>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-none d-md-block">
+                    <table class="table table-dark table-hover text-left px-0 mx-0">
+                        <tbody>
+                        <tr *ngIf="shipping_cost">
+                            <td class="col-6 bold">Shipping Cost</td>
+                            <td class="col-6">{{shipping_cost}}</td>
+                        </tr>
+                        <tr *ngIf="shipping_location">
+                            <td class="bold">Shipping Location</td>
+                            <td>{{shipping_location}}</td>
+                        </tr>
+                        <tr *ngIf="handling_time">
+                            <td class="bold">Handling Time</td>
+                            <td>{{handling_time}}</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Expedited Shipping</td>
+                            <td *ngIf="!expedited_shipping; else noExpeditedShipping">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noExpeditedShipping>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        <tr>
+                            <td class="bold">One Day Shipping</td>
+                            <td *ngIf="!one_day_shipping; else noOneDayShipping">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noOneDayShipping>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        <tr>
+                            <td class="bold">Return Accepted</td>
+                            <td *ngIf="!return_accepted; else noReturnAccepted">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noReturnAccepted>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+                <div class="d-md-none">    
+                    <table class="table table-dark table-hover text-left px-0 mx-0 w-100">
+                        <thead>
+                            <tr>
+                                <th class="table-dark table-hover text-center" rowspan="2">
+                                    <h4>{{storeid}}</h4>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngIf="feedback_score">
+                            <td class="col-6 bold">Feedback Score</td>
+                        </tr>
+                        <tr *ngIf="feedback_score">
+                            <td class="col-6">{{feedback_score}}</td>
+                        </tr>
+                        <tr *ngIf="popularity">
+                            <td class="bold">Popularity</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="position: relative; top: 0; left: 0;">
+                                    <round-progress
+                                        [current]="popularity"
+                                        [max]=100
+                                        [radius]="20"
+                                        [stroke]="2"
+                                        [color]="'#026702'">
+                                    </round-progress>
+                                </div>
+                                <div class="current" style="transform: translateY(-125%) translateX(1%);">{{popularity}}</div>
+                            </td>
+                        <tr *ngIf="rating_star">
+                            <td class="bold">Feedback Rating Star</td>
+                        </tr>
+                        <tr *ngIf="rating_star">
+                            <td [ngSwitch]="rating_star">
+                                <span *ngSwitchCase=""></span>
+                                <span *ngSwitchCase="'Yellow'"><i class="material-icons" style="color:yellow">star-border</i></span>
+                                <span *ngSwitchCase="'Blue'"><i class="material-icons" style="color:blue">star-border</i></span>
+                                <span *ngSwitchCase="'Turquoise'"><i class="material-icons" style="color:turquoise">star-border</i></span>
+                                <span *ngSwitchCase="'Purple'"><i class="material-icons" style="color:Purple">star-border</i></span>
+                                <span *ngSwitchCase="'Red'"><i class="material-icons" style="color:Red">star-border</i></span>
+                                <span *ngSwitchCase="'YellowShooting'"><i class="material-icons" style="color:Yellow">stars</i></span>
+                                <span *ngSwitchCase="'TurquoiseShooting'"><i class="material-icons" style="color:turquoise">stars</i></span>
+                                <span *ngSwitchCase="'PurpleShooting'"><i class="material-icons" style="color:purple">stars</i></span>
+                                <span *ngSwitchCase="'RedShooting'"><i class="material-icons" style="color:red">stars</i></span>
+                                <span *ngSwitchCase="'GreenShooting'"><i class="material-icons" style="color:green">stars</i></span>
+                                <span *ngSwitchCase="'SilverShooting'"><i class="material-icons" style="color:silver">stars</i></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Top Rated</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="!top_rated; else noTopRated">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noTopRated>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        <tr *ngIf="store_name">
+                            <td class="bold">Store Name</td>
+                        </tr>
+                        <tr *ngIf="store_name">
+                            <td>{{store_name}}</td>
+                        </tr>
+                        <tr *ngIf="store_url">
+                            <td class="bold">Buy Product At</td>
+                        </tr>
+                        <tr *ngIf="store_url">
+                            <td><i class="hyperlink-text" (click)="openInNewTab(store_url)">Store</i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-none d-md-block">
+                    <table class="table table-dark table-hover text-left px-0 mx-0">
+                        <thead>
+                            <tr>
+                                <th class="table-dark table-hover text-center" colspan="2" rowspan="2">
+                                    <h4>{{storeid}}</h4>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngIf="feedback_score">
+                            <td class="col-6 bold">Feedback Score</td>
+                            <td class="col-6">{{feedback_score}}</td>
+                        </tr>
+                        <tr *ngIf="popularity">
+                            <td class="bold">Popularity</td>
+                            <td>
+                                <div style="position: relative; top: 0; left: 0;">
+                                    <round-progress
+                                        [current]="popularity"
+                                        [max]=100
+                                        [radius]="20"
+                                        [stroke]="2"
+                                        [color]="'#026702'">
+                                    </round-progress>
+                                </div>
+                                <div class="current" style="transform: translateY(-125%) translateX(1%);">{{popularity}}</div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="rating_star">
+                            <td class="bold">Feedback Rating Star</td>
+                            <td [ngSwitch]="rating_star">
+                                <span *ngSwitchCase=""></span>
+                                <span *ngSwitchCase="'Yellow'"><i class="material-icons" style="color:yellow">star-border</i></span>
+                                <span *ngSwitchCase="'Blue'"><i class="material-icons" style="color:blue">star-border</i></span>
+                                <span *ngSwitchCase="'Turquoise'"><i class="material-icons" style="color:turquoise">star-border</i></span>
+                                <span *ngSwitchCase="'Purple'"><i class="material-icons" style="color:Purple">star-border</i></span>
+                                <span *ngSwitchCase="'Red'"><i class="material-icons" style="color:Red">star-border</i></span>
+                                <span *ngSwitchCase="'YellowShooting'"><i class="material-icons" style="color:Yellow">stars</i></span>
+                                <span *ngSwitchCase="'TurquoiseShooting'"><i class="material-icons" style="color:turquoise">stars</i></span>
+                                <span *ngSwitchCase="'PurpleShooting'"><i class="material-icons" style="color:purple">stars</i></span>
+                                <span *ngSwitchCase="'RedShooting'"><i class="material-icons" style="color:red">stars</i></span>
+                                <span *ngSwitchCase="'GreenShooting'"><i class="material-icons" style="color:green">stars</i></span>
+                                <span *ngSwitchCase="'SilverShooting'"><i class="material-icons" style="color:silver">stars</i></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Top Rated</td>
+                            <td *ngIf="!top_rated; else noTopRated">
+                                <span class="red material-icons">
+                                    close
+                                </span>
+                            </td>
+                            <ng-template #noTopRated>
+                                <td>
+                                    <span class="green material-icons">
+                                        done
+                                    </span>
+                                </td>
+                            </ng-template>
+                        </tr>
+                        <tr *ngIf="store_name">
+                            <td class="bold">Store Name</td>
+                            <td>{{store_name}}</td>
+                        </tr>
+                        <tr *ngIf="store_url">
+                            <td class="bold">Buy Product At</td>
+                            <td><i class="hyperlink-text" (click)="openInNewTab(store_url)">Store</i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+                <span>Not Implemented</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>    
+
+<!-- Modal -->
+<div class="modal fade" id="productImagesModal" tabindex="-1" role="dialog" aria-labelledby="productImagesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="productImagesModalLabel">Product Images</h5>
+            <button type="button" class="close" (click)="closeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <div class="modal-body">
+          <div id="productImagesCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+            </ol>
+  
+            <!-- Slides -->
+            <div class="carousel-inner">
+            </div>
+  
+            <!-- Controls -->
+            <a class="carousel-control-prev" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </a>
+            <a class="carousel-control-next" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
